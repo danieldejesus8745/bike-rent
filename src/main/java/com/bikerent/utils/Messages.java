@@ -7,7 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Messages {
 
-    MESSAGE_1("Usuário adicionado com sucesso");
+    MESSAGE_1("Usuário adicionado com sucesso"),
+    MESSAGE_2("Esse e-mail já está cadastrado");
 
     private final String description;
 
