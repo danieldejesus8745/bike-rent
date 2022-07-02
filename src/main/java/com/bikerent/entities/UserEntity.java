@@ -5,13 +5,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Document
 public class UserEntity {
 
     @Id
-    private UUID uuid;
+    private String id;
 
     private String name;
 
@@ -22,7 +21,7 @@ public class UserEntity {
     private LocalDate createdAt;
 
     public UserEntity(User user) {
-        uuid = user.getUuid();
+        id = user.getId();
         name = user.getName();
         email = user.getEmail();
         password = user.getPassword();

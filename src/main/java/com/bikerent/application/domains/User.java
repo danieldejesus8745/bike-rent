@@ -1,18 +1,17 @@
 package com.bikerent.application.domains;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class User {
 
-    private UUID uuid;
+    private String id;
     private String name;
     private String email;
     private String password;
     private LocalDate createdAt;
 
-    public UUID getUuid() {
-        return uuid;
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -31,8 +30,8 @@ public class User {
         return createdAt;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setName(String name) {
