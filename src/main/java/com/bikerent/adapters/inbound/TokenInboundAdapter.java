@@ -6,6 +6,8 @@ import com.bikerent.application.services.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class TokenInboundAdapter implements TokenInboundPort {
@@ -30,6 +32,11 @@ public class TokenInboundAdapter implements TokenInboundPort {
     @Override
     public void removeToken(String id) {
         tokenService.removeToken(id);
+    }
+
+    @Override
+    public boolean isValidToken(UUID token) {
+        return tokenService.isValidToken(token);
     }
 
 }

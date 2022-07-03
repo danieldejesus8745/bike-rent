@@ -41,4 +41,15 @@ public class TokenOutboundAdapter implements TokenOutboundPort {
         tokenEntityRepository.deleteById(id);
     }
 
+    @Override
+    public TokenDomain getToken(UUID token) {
+        TokenEntity tokenEntity = tokenEntityRepository.findByToken(token).orElse(null);
+
+        if (Objects.isNull(tokenEntity)) {
+            return null;
+        }
+
+        return tokenMapper.fromTokenEntityToToken(tokenEntity);
+    }
+
 }

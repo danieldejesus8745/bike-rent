@@ -4,6 +4,7 @@ import com.bikerent.application.domains.TokenDomain;
 import com.bikerent.application.ports.outbound.TokenOutboundPort;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.UUID;
 
 public class TokenService {
@@ -33,6 +34,16 @@ public class TokenService {
 
     public void removeToken(String id) {
         tokenOutboundPort.removeToken(id);
+    }
+
+    public boolean isValidToken(UUID token) {
+        TokenDomain tokenDomain = tokenOutboundPort.getToken(token);
+
+        if (Objects.isNull(tokenDomain)) {
+            return false;
+        }
+
+        return tokenDomain.getExpiration() > System.currentTimeMillis();
     }
 
 }

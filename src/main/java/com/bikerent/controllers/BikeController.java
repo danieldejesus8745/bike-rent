@@ -1,17 +1,13 @@
 package com.bikerent.controllers;
 
 import com.bikerent.adapters.inbound.BikeInboundAdapter;
-import com.bikerent.application.domains.Bike;
+import com.bikerent.adapters.inbound.TokenInboundAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 import static com.bikerent.utils.Messages.*;
@@ -23,10 +19,19 @@ import static com.bikerent.utils.Messages.*;
 public class BikeController {
 
     private final BikeInboundAdapter bikeInboundAdapter;
+    private final TokenInboundAdapter tokenInboundAdapter;
 
     @GetMapping(path = "/{code}")
-    public ResponseEntity<String> rentBike(@PathVariable("code") String code) {
+    public ResponseEntity<String> rentBike(@RequestHeader("Authorization") String token,
+                                           @PathVariable("code") String code) {
+        boolean isValidToken = tokenInboundAdapter.isValidToken(UUID.fromString(token));
+
+        if (!isValidToken) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(MESSAGE_9.getDescription());
+        }
+
         UUID uuidCode = validateCode(code);
+
         String response = bikeInboundAdapter.rentBike(uuidCode);
 
         if (response.equals(MESSAGE_5.getDescription())) {
@@ -41,8 +46,14 @@ public class BikeController {
     }
 
     @GetMapping
-    public List<Bike> getAllBikes() {
-        return bikeInboundAdapter.getAllBikes();
+    public ResponseEntity<Object> getAllBikes(@RequestHeader("Authorization") String token) {
+        boolean isValidToken = tokenInboundAdapter.isValidToken(UUID.fromString(token));
+
+        if (!isValidToken) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(MESSAGE_9.getDescription());
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(bikeInboundAdapter.getAllBikes());
     }
 
     private UUID validateCode(String code) {
