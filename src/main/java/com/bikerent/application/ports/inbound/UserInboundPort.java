@@ -6,4 +6,6 @@ public interface UserInboundPort {
 
     void addUser(User user);
 
+    String login(String email, String password);
+
 }
