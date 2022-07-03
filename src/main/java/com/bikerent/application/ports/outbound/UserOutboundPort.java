@@ -6,4 +6,6 @@ public interface UserOutboundPort {
 
     void addUser(User user);
 
+    User getUser(String email);
+
 }

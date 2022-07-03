@@ -6,12 +6,9 @@ import com.bikerent.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import static com.bikerent.utils.Messages.MESSAGE_1;
+import static com.bikerent.utils.Messages.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,8 +20,24 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) {
-        userInboundAdapter.addUser(userMapper.toUser(userDTO));
+        userInboundAdapter.addUser(userMapper.fromUserDtoToUser(userDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(MESSAGE_1.getDescription());
+    }
+
+    @GetMapping(path = "/login/{email}/{password}")
+    public ResponseEntity<String> login(@PathVariable("email") String email,
+                                        @PathVariable("password") String password) {
+        String response = userInboundAdapter.login(email, password);
+
+        if (response.equals(MESSAGE_3.getDescription())) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+
+        if (response.equals(MESSAGE_4.getDescription())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }

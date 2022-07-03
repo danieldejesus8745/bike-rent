@@ -1,13 +1,17 @@
 package com.bikerent.entities;
 
 import com.bikerent.application.domains.User;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
+@Getter
 @Document("users")
+@NoArgsConstructor
 public class UserEntity {
 
     @Id

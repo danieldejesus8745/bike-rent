@@ -18,4 +18,8 @@ public class UserService {
         userOutboundPort.addUser(user);
     }
 
+    public User getUser(String email) {
+        return userOutboundPort.getUser(email);
+    }
+
 }
