@@ -16,6 +16,7 @@ public class TokenEntity {
     @Id
     private String id;
 
+    @Indexed(unique = true)
     private UUID token;
 
     private long expiration;

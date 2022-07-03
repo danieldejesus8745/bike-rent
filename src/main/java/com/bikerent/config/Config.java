@@ -1,7 +1,9 @@
 package com.bikerent.config;
 
+import com.bikerent.application.ports.outbound.BikeOutboundPort;
 import com.bikerent.application.ports.outbound.TokenOutboundPort;
 import com.bikerent.application.ports.outbound.UserOutboundPort;
+import com.bikerent.application.services.BikeService;
 import com.bikerent.application.services.TokenService;
 import com.bikerent.application.services.UserService;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +22,11 @@ public class Config {
     @Bean
     public TokenService tokenService(TokenOutboundPort tokenOutboundPort) {
         return new TokenService(tokenOutboundPort);
+    }
+
+    @Bean
+    public BikeService bikeService(BikeOutboundPort bikeOutboundPort) {
+        return new BikeService(bikeOutboundPort);
     }
 
     @Bean
