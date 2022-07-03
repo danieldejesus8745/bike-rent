@@ -1,6 +1,6 @@
 package com.bikerent.application.services;
 
-import com.bikerent.application.domains.Token;
+import com.bikerent.application.domains.TokenDomain;
 import com.bikerent.application.ports.outbound.TokenOutboundPort;
 
 import java.time.LocalDate;
@@ -14,17 +14,25 @@ public class TokenService {
         this.tokenOutboundPort = tokenOutboundPort;
     }
 
-    public Token createAccessToken(String owner) {
-        Token token = new Token();
-        token.setToken(UUID.randomUUID());
-        token.setExpiration(System.currentTimeMillis() + 120000);
-        token.setOwner(owner);
-        token.setCreatedAt(LocalDate.now());
-        return token;
+    public TokenDomain createAccessToken(String owner) {
+        TokenDomain tokenDomain = new TokenDomain();
+        tokenDomain.setToken(UUID.randomUUID());
+        tokenDomain.setExpiration(System.currentTimeMillis() + 120000);
+        tokenDomain.setOwner(owner);
+        tokenDomain.setCreatedAt(LocalDate.now());
+        return tokenDomain;
     }
 
-    public String addToken(Token token) {
-        return tokenOutboundPort.addToken(token);
+    public String addToken(TokenDomain tokenDomain) {
+        return tokenOutboundPort.addToken(tokenDomain);
+    }
+
+    public TokenDomain getTokenByOwner(String owner) {
+        return tokenOutboundPort.getTokenByOwner(owner);
+    }
+
+    public void removeToken(String id) {
+        tokenOutboundPort.removeToken(id);
     }
 
 }

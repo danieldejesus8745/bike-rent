@@ -3,13 +3,17 @@ package com.bikerent.application.domains;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class Token {
+public class TokenDomain {
 
     private String id;
     private UUID token;
     private long expiration;
     private String owner;
     private LocalDate createdAt;
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public void setToken(UUID token) {
         this.token = token;

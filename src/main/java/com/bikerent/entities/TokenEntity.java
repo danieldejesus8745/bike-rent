@@ -1,7 +1,8 @@
 package com.bikerent.entities;
 
-import com.bikerent.application.domains.Token;
+import com.bikerent.application.domains.TokenDomain;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Getter
 @Document("tokens")
+@NoArgsConstructor
 public class TokenEntity {
 
     @Id
@@ -26,12 +28,12 @@ public class TokenEntity {
 
     private LocalDate createdAt;
 
-    public TokenEntity(Token createdToken) {
-        id = createdToken.getId();
-        token = createdToken.getToken();
-        expiration = createdToken.getExpiration();
-        owner = createdToken.getOwner();
-        createdAt = createdToken.getCreatedAt();
+    public TokenEntity(TokenDomain tokenDomain) {
+        id = tokenDomain.getId();
+        token = tokenDomain.getToken();
+        expiration = tokenDomain.getExpiration();
+        owner = tokenDomain.getOwner();
+        createdAt = tokenDomain.getCreatedAt();
     }
 
 }

@@ -1,9 +1,13 @@
 package com.bikerent.application.ports.outbound;
 
-import com.bikerent.application.domains.Token;
+import com.bikerent.application.domains.TokenDomain;
 
 public interface TokenOutboundPort {
 
-    String addToken(Token token);
+    String addToken(TokenDomain tokenDomain);
+
+    TokenDomain getTokenByOwner(String owner);
+
+    void removeToken(String id);
 
 }

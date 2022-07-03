@@ -1,6 +1,6 @@
 package com.bikerent.adapters.inbound;
 
-import com.bikerent.application.domains.Token;
+import com.bikerent.application.domains.TokenDomain;
 import com.bikerent.application.domains.User;
 import com.bikerent.application.ports.inbound.UserInboundPort;
 import com.bikerent.application.services.UserService;
@@ -39,10 +39,22 @@ public class UserInboundAdapter implements UserInboundPort {
             return MESSAGE_4.getDescription();
         }
 
-        Token token = tokenInboundAdapter.createToken(user.getEmail());
-        tokenInboundAdapter.addToken(token);
+        TokenDomain tokenDomain = addToken(user.getEmail());
 
-        return token.getToken().toString();
+        return tokenDomain.getToken().toString();
+    }
+
+    private TokenDomain addToken(String email) {
+        TokenDomain tokenDomainByOwner = tokenInboundAdapter.getTokenByOwner(email);
+
+        if (Objects.nonNull(tokenDomainByOwner)) {
+            tokenInboundAdapter.removeToken(tokenDomainByOwner.getId());
+        }
+
+        TokenDomain tokenDomain = tokenInboundAdapter.createToken(email);
+        tokenInboundAdapter.addToken(tokenDomain);
+
+        return tokenDomain;
     }
 
 }
