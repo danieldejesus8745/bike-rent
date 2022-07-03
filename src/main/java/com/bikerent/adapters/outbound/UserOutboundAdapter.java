@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+import static com.bikerent.utils.Messages.MESSAGE_1;
 import static com.bikerent.utils.Messages.MESSAGE_2;
 
 @Slf4j
@@ -22,12 +23,14 @@ public class UserOutboundAdapter implements UserOutboundPort {
     private final UserMapper userMapper;
 
     @Override
-    public void addUser(User user) {
+    public String addUser(User user) {
         try {
             userEntityRepository.save(new UserEntity(user));
+            return MESSAGE_1.getDescription();
         } catch (RuntimeException runtimeException) {
-            log.error("O cadastro não pôde ser concluído por causa do seguinte erro: . " + runtimeException.getMessage());
-            throw new IllegalStateException(MESSAGE_2.getDescription());
+            log.error("O cadastro não pôde ser concluído por causa do seguinte erro: "
+                    + runtimeException.getMessage());
+            return MESSAGE_2.getDescription();
         }
     }
 

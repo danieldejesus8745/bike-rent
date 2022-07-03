@@ -4,7 +4,7 @@ import com.bikerent.application.domains.User;
 
 public interface UserOutboundPort {
 
-    void addUser(User user);
+    String addUser(User user);
 
     User getUser(String email);
 

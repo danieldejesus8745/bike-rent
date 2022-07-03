@@ -22,9 +22,9 @@ public class UserInboundAdapter implements UserInboundPort {
     private final TokenInboundAdapter tokenInboundAdapter;
 
     @Override
-    public void addUser(User user) {
+    public String addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.addUser(user);
+        return userService.addUser(user);
     }
 
     @Override

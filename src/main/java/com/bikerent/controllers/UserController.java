@@ -20,7 +20,12 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) {
-        userInboundAdapter.addUser(userMapper.fromUserDtoToUser(userDTO));
+        String response = userInboundAdapter.addUser(userMapper.fromUserDtoToUser(userDTO));
+
+        if (response.equals(MESSAGE_2.getDescription())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(MESSAGE_1.getDescription());
     }
 

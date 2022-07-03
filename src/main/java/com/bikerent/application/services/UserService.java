@@ -13,9 +13,9 @@ public class UserService {
         this.userOutboundPort = userOutboundPort;
     }
 
-    public void addUser(User user) {
+    public String addUser(User user) {
         user.setCreatedAt(LocalDate.now());
-        userOutboundPort.addUser(user);
+        return userOutboundPort.addUser(user);
     }
 
     public User getUser(String email) {
